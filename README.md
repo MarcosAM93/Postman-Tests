@@ -1,4 +1,4 @@
-# server-API-happy-path-collection
+# postman-tests
 
 Testes de amostra com coleções do postman
 
