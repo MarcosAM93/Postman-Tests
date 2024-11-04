@@ -24,6 +24,6 @@ jobs:
         run: |
           npm install -g newman
 
-      - name: Run Postman Collection
+      - name: Run Postman Collection with Environment
         run: |
-          newman run "caminho/para/sua-collection.json" # Ajuste o caminho para o arquivo JSON da collection
+          newman run "Server_Rest_API_(Happy Path).postman_collection.json" -e "environments/Server Rest Env.postman_environment.json"
