@@ -1,0 +1,29 @@
+name: Run Postman Tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  postman-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+
+      - name: Install Newman
+        run: |
+          npm install -g newman
+
+      - name: Run Postman Collection
+        run: |
+          newman run "caminho/para/sua-collection.json" # Ajuste o caminho para o arquivo JSON da collection
