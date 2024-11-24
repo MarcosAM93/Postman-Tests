@@ -1,0 +1,88 @@
+{
+	"info": {
+		"_postman_id": "55c0cca8-d804-4103-866d-6481d7e755ab",
+		"name": "Pokemon API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26426404"
+	},
+	"item": [
+		{
+			"name": "Get a Pokemon",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 4000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(4000);\r",
+							"});\r",
+							"\r",
+							"let jsonData = pm.response.json();\r",
+							"\r",
+							"\r",
+							"pm.test(\"Verify abilities\", function () {\r",
+							"    pm.expect(jsonData.abilities).to.have.lengthOf(3);\r",
+							"    pm.expect(jsonData.abilities[0].ability.name).to.be.a(\"string\").to.equal(\"intimidate\");\r",
+							"    pm.expect(jsonData.abilities[1].ability.name).to.be.a(\"string\").to.equal(\"flash-fire\");\r",
+							"    pm.expect(jsonData.abilities[2].ability.name).to.be.a(\"string\").to.equal(\"justified\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Verify pokemon name\", function () {\r",
+							"    pm.expect(jsonData.name).to.be.a(\"string\").to.equal(\"arcanine\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Verify order\", function () {\r",
+							"    pm.expect(jsonData.order).to.be.a(\"number\").to.equal(98);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Verify past abilities and types are empty\", function () {\r",
+							"    pm.expect(jsonData.past_abilities).to.be.empty\r",
+							"    pm.expect(jsonData.past_types).to.be.empty\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Verify pokemon species\", function () {\r",
+							"    pm.expect(jsonData.species.name).to.be.a(\"string\").to.equal(\"arcanine\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://pokeapi.co/api/v2/pokemon/arcanine",
+					"protocol": "https",
+					"host": [
+						"pokeapi",
+						"co"
+					],
+					"path": [
+						"api",
+						"v2",
+						"pokemon",
+						"arcanine"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
