@@ -7,7 +7,7 @@
 	},
 	"item": [
 		{
-			"name": "Get a Pokemon",
+			"name": "Get Arcanine Info",
 			"event": [
 				{
 					"listen": "test",
@@ -22,7 +22,6 @@
 							"});\r",
 							"\r",
 							"let jsonData = pm.response.json();\r",
-							"\r",
 							"\r",
 							"pm.test(\"Verify abilities\", function () {\r",
 							"    pm.expect(jsonData.abilities).to.have.lengthOf(3);\r",
@@ -47,6 +46,12 @@
 							"pm.test(\"Verify pokemon species\", function () {\r",
 							"    pm.expect(jsonData.species.name).to.be.a(\"string\").to.equal(\"arcanine\");\r",
 							"});\r",
+							"\r",
+							"pm.test(\"Verify 'extreme speed' is in moves\", function () {\r",
+							"    const extremeSpeed = jsonData.moves.map(move => move.move.name);\r",
+							"    pm.expect(extremeSpeed).to.contain(\"extreme-speed\");\r",
+							"});\r",
+							"\r",
 							""
 						],
 						"type": "text/javascript",
@@ -57,7 +62,7 @@
 					"listen": "prerequest",
 					"script": {
 						"exec": [
-							""
+							"pm.collectionVariables.set(\"pokemon\", \"arcanine\")"
 						],
 						"type": "text/javascript",
 						"packages": {}
@@ -68,7 +73,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://pokeapi.co/api/v2/pokemon/arcanine",
+					"raw": "https://pokeapi.co/api/v2/pokemon/{{pokemon}}",
 					"protocol": "https",
 					"host": [
 						"pokeapi",
@@ -78,11 +83,17 @@
 						"api",
 						"v2",
 						"pokemon",
-						"arcanine"
+						"{{pokemon}}"
 					]
 				}
 			},
 			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "pokemon",
+			"value": ""
 		}
 	]
 }
