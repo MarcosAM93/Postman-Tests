@@ -1,0 +1,284 @@
+{
+	"info": {
+		"_postman_id": "4b098aaa-b034-4063-845b-a7cac58cf596",
+		"name": "ReqRes API  (Exercises)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26426404"
+	},
+	"item": [
+		{
+			"name": "Get resource",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let json_data = pm.response.json()\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"6 per page\", function (){\r",
+							"    pm.expect(json_data.per_page).to.be.a(\"number\").to.equal(6);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://reqres.in/api/{resource}",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"{resource}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let json_data = pm.response.json()\r",
+							"\r",
+							"pm.test(\"Sattus code 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Verify emails\", function () {\r",
+							"    pm.expect(json_data.data[0].email).to.be.a(\"string\").to.equal(\"george.bluth@reqres.in\");\r",
+							"    pm.expect(json_data.data[1].email).to.be.a(\"string\").to.equal(\"janet.weaver@reqres.in\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://reqres.in/api/users?page=1&per_page=2",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "per_page",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get users (ID - EXIST)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let json_data = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Status code 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Validate data attributes\", function () {\r",
+							"    pm.expect(json_data).to.be.an(\"object\");\r",
+							"    pm.expect(json_data.data.id).to.be.a(\"number\").to.equal(1);\r",
+							"    pm.expect(json_data.data.email).to.be.a(\"string\").to.equal(\"george.bluth@reqres.in\");\r",
+							"    pm.expect(json_data.data.first_name).to.be.a(\"string\").to.equal(\"George\");\r",
+							"    pm.expect(json_data.data.last_name).to.be.a(\"string\").to.equal(\"Bluth\");\r",
+							"    pm.expect(json_data.data.avatar).to.be.a(\"string\").to.equal(\"https://reqres.in/img/faces/1-image.jpg\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://reqres.in/api/users/1",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get users (ID - NON EXIST)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let json_data = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Satus code 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Validate response is empty\", function () {\r",
+							"    pm.expect(json_data).to.be.empty;\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://reqres.in/api/users/234",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users",
+						"234"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get users (Delay)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status 200\", function () {\r",
+							"    pm.response.to.have.status(200)\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time less than 4000\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(4000);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://reqres.in/api/users/?delay=3",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users",
+						""
+					],
+					"query": [
+						{
+							"key": "delay",
+							"value": "3"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let json_data = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Verify user ID\", function () {\r",
+							"    pm.expect(json_data.id).to.be.a(\"number\").to.equal(4);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Validadte token is not empty\", function () {\r",
+							"    pm.expect(json_data.token).to.be.a(\"string\").to.not.be.empty;\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"eve.holt@reqres.in\",\r\n    \"password\": \"pistol\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://reqres.in/api/register",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"register"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
