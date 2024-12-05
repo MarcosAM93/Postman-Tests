@@ -22,9 +22,6 @@
 							"    pm.response.to.have.status(201);\r",
 							"});\r",
 							"\r",
-							"pm.test(\"Response time\", function () {\r",
-							"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
-							"});\r",
 							"\r",
 							"pm.test(\"Response has property ID\", function () {\r",
 							"    pm.expect(pm.response.json()).to.be.an(\"object\");\r",
@@ -32,10 +29,11 @@
 							"});\r",
 							"\r",
 							"pm.test(\"Response has message\", function () {\r",
-							"    pm.expect(pm.response.json().message).to.be.eql(\"Cadastro realizado com sucesso\");\r",
+							"    pm.expect(pm.response.json().message).to.be.a(\"string\").to.equal(\"Cadastro realizado com sucesso\");\r",
 							"});"
 						],
-						"type": "text/javascript"
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
@@ -75,10 +73,6 @@
 							"    pm.response.to.have.status(200);\r",
 							"});\r",
 							"\r",
-							"pm.test(\"Response time\", function () {\r",
-							"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
-							"});\r",
-							"\r",
 							"pm.test(\"Response has user body\", function () {\r",
 							"    pm.expect(pm.response.json()).to.have.property(\"nome\");\r",
 							"    pm.expect(pm.response.json()).to.have.property(\"email\");\r",
@@ -87,7 +81,8 @@
 							"    pm.expect(pm.response.json()).to.have.property(\"_id\");\r",
 							"    });"
 						],
-						"type": "text/javascript"
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
@@ -123,16 +118,12 @@
 							"    pm.response.to.have.status(200);\r",
 							"});\r",
 							"\r",
-							"pm.test(\"Response time\", function () {\r",
-							"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
-							"});\r",
-							"\r",
 							"pm.test(\"Response has property authorization\", function () {\r",
 							"   pm.expect(pm.response.json()).to.have.property(\"authorization\")\r",
 							"});\r",
 							"\r",
 							"pm.test(\"Response has message\", function () {\r",
-							"    pm.expect(pm.response.json()).to.have.property(\"message\").to.be.eql(\"Login realizado com sucesso\");\r",
+							"    pm.expect(pm.response.json()).to.have.property(\"message\").to.be.a(\"string\").to.equal(\"Login realizado com sucesso\");\r",
 							"});\r",
 							"\r",
 							"pm.test(\"Response has token\", function () {\r",
@@ -199,12 +190,8 @@
 							"    pm.expect(pm.response.code).to.equal(201);\r",
 							"});\r",
 							"\r",
-							"pm.test(\"Response time\", function () {\r",
-							"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
-							"});\r",
-							"\r",
 							"pm.test(\"Response has desired properties\", function () {\r",
-							"    pm.expect(json_data).to.have.property(\"message\").to.be.eql(\"Cadastro realizado com sucesso\");\r",
+							"    pm.expect(json_data).to.have.property(\"message\").to.be.a(\"string\").to.equal(\"Cadastro realizado com sucesso\");\r",
 							"    pm.expect(json_data).to.have.property(\"_id\");\r",
 							"});\r",
 							"\r",
@@ -260,14 +247,10 @@
 							"    pm.response.to.have.status(201);\r",
 							"});\r",
 							"\r",
-							"pm.test(\"Response time\", function () {\r",
-							"    pm.expect(pm.response.responseTime).to.be.below(4000);\r",
-							"});\r",
-							"\r",
 							" let json_data = pm.response.json();\r",
 							"\r",
 							"pm.test(\"Validate message\", function () {\r",
-							"    pm.expect(json_data.message).to.be.eql(\"Cadastro realizado com sucesso\")\r",
+							"    pm.expect(json_data.message).to.be.a(\"string\").to.equal(\"Cadastro realizado com sucesso\")\r",
 							"});\r",
 							"\r",
 							"pm.environment.set(\"carrinho_pc_gamer_id\", json_data._id);"
@@ -312,7 +295,7 @@
 			"response": []
 		},
 		{
-			"name": "Excluir carrinho",
+			"name": "Concluir Compra",
 			"event": [
 				{
 					"listen": "test",
@@ -322,13 +305,9 @@
 							"    pm.response.to.have.status(200);\r",
 							"});\r",
 							"\r",
-							"pm.test(\"Response time\", function () {\r",
-							"    pm.expect(pm.response.responseTime).to.be.below(4000);\r",
-							"});\r",
-							"\r",
 							"pm.test(\"Validate property\", function () {\r",
 							"    let json_data = pm.response.json();\r",
-							"    pm.expect(json_data.message).to.be.eql(\"Registro excluído com sucesso. Estoque dos produtos reabastecido\");\r",
+							"    pm.expect(json_data.message).to.be.a(\"string\").to.equal(\"Registro excluído com sucesso\");\r",
 							"});\r",
 							"\r",
 							"\r",
@@ -349,16 +328,54 @@
 					}
 				],
 				"url": {
-					"raw": "{{server_api}}/carrinhos/cancelar-compra",
+					"raw": "{{server_api}}/carrinhos/concluir-compra",
 					"host": [
 						"{{server_api}}"
 					],
 					"path": [
 						"carrinhos",
-						"cancelar-compra"
+						"concluir-compra"
 					]
 				},
 				"description": "Delete cart"
+			},
+			"response": []
+		},
+		{
+			"name": "Ler carrinho excluido",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"json_response = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has message\", function () {\r",
+							"    pm.expect(json_response.message).to.be.a(\"string\").to.equal(\"Carrinho não encontrado\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{server_api}}/carrinhos/{{carrinho_pc_gamer_id}}",
+					"host": [
+						"{{server_api}}"
+					],
+					"path": [
+						"carrinhos",
+						"{{carrinho_pc_gamer_id}}"
+					]
+				}
 			},
 			"response": []
 		},
@@ -373,13 +390,9 @@
 							"    pm.expect(pm.response.code).to.be.eql(200);",
 							"})",
 							"",
-							"pm.test('Response time', function () {",
-							"    pm.expect(pm.response.responseTime).to.be.below(3000);",
-							"})",
-							"",
 							"pm.test(\"Verify properties\", function () {",
 							"    let json_data = pm.response.json();",
-							"    pm.expect(json_data.message).to.be.eql(\"Registro excluído com sucesso\");",
+							"    pm.expect(json_data.message).to.be.a(\"string\").to.equal(\"Registro excluído com sucesso\");",
 							"});",
 							"",
 							""
@@ -417,6 +430,45 @@
 			"response": []
 		},
 		{
+			"name": "Ler produto excluído",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let json_response = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has message\", function (){\r",
+							"    pm.expect(json_response.message).to.be.a(\"string\").to.equal(\"Produto não encontrado\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{server_api}}/produtos/{{pc_gamer_id}}",
+					"host": [
+						"{{server_api}}"
+					],
+					"path": [
+						"produtos",
+						"{{pc_gamer_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Excluir usuário",
 			"event": [
 				{
@@ -437,12 +489,8 @@
 							"    pm.response.to.have.status(200);\r",
 							"});\r",
 							"\r",
-							"pm.test(\"Response time\", function () {\r",
-							"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
-							"});\r",
-							"\r",
 							"pm.test(\"Validate message\", function () {\r",
-							"    pm.expect(pm.response.json()).to.have.property(\"message\").to.be.eql(\"Registro excluído com sucesso\");\r",
+							"    pm.expect(pm.response.json()).to.have.property(\"message\").to.be.a(\"string\").to.equal(\"Registro excluído com sucesso\");\r",
 							"});\r",
 							"\r",
 							"pm.environment.unset(\"happy_path_login_id\");\r",
@@ -471,6 +519,86 @@
 				"description": "Delete user"
 			},
 			"response": []
+		},
+		{
+			"name": "Ler usuario inexistente",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let json_data = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has message\", function () {\r",
+							"   pm.expect(json_data.message).to.be.a(\"string\").to.equal(\"Usuário não encontrado\");\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server_api}}/usuarios/{{id_admin}}",
+					"host": [
+						"{{server_api}}"
+					],
+					"path": [
+						"usuarios",
+						"{{id_admin}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					"pm.test(\"Response time\", function () {\r",
+					"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+					"});\r",
+					""
+				]
+			}
 		}
 	]
 }
